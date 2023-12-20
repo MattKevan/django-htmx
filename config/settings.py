@@ -29,12 +29,12 @@ INSTALLED_APPS = [
     "crispy_tailwind",
     "debug_toolbar",
     'tailwind',
-    'theme',
     'django_browser_reload',
     'widget_tweaks',
     # Local
-    "accounts",
-    "pages",
+    'apps.theme',
+    "apps.accounts",
+    "apps.pages",
 ]
 
 TAILWIND_APP_NAME = 'theme'
