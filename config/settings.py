@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'widget_tweaks',
     # Local
-    'apps.theme',
+    'theme',
     "apps.accounts",
     "apps.pages",
 ]
