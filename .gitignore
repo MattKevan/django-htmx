@@ -1,6 +1,9 @@
 # OSX #
 .DS_Store
 
+# Node
+node_modules
+
 # Byte-compiled / optimized / DLL files #
 __pycache__/
 *.py[cod]
@@ -13,3 +16,6 @@ media
 
 # Virtual environment
 .venv
+
+# Environments
+.env

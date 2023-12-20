@@ -4,11 +4,37 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
-<h2>Log in</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button class="btn btn-success" type="submit">Log in</button>
-</form>
-<a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+
+  <div class="dark:bg-slate-900 flex h-full items-center py-16 bg-gray-100">
+    <main class="w-full max-w-md mx-auto p-6">
+      <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        <div class="p-4 sm:p-7">
+          <div class="text-center">
+            <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Log in</h1>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Don't have an account yet?
+              <a class="text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 mb-10" href="{% url 'account_login' %}">
+                Sign up here
+              </a>
+            </p>
+          </div>
+
+            <!-- Form -->
+            <form method="post" class="py-4 gap-x-3">
+              {% csrf_token %}
+              <div class="grid gap-y-4">
+              {{ form|crispy }}
+              <a class="text-sm text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'account_reset_password' %}">Forgot password?</a>
+
+              <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Sign up</button>
+            </div>
+              </form>
+            <!-- End Form -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
 {% endblock content %}

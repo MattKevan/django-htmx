@@ -1,0 +1,68 @@
+{% load static %}
+<div class="progress" style="height: 3px; background-color: white;">
+    <div class="indeterminate bg-blue-500">
+    </div>
+</div>
+
+  <div class="w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-gray-800 dark:border-gray-700">
+    <div x-data="{ open: false }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-4">
+      <div class="p-4 flex flex-row items-center justify-between">
+        <a href="{% url 'home' %}" class="text-lg font-semibold text-gray-900 rounded-lg dark:text-white focus:outline-none focus:shadow-outline">Django HTMX</a>
+        <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
+          <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
+            <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+            <path x-show="open" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+      <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
+        <div class="flex flex-col gap-y-3 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-6 sm:mt-0 sm:ps-7">
+        {% url 'home' as home_url %}
+        <a  href="{{ home_url }}" 
+            class="font-medium sm:py-6
+                {% if request.get_full_path == home_url %}
+                    text-blue-600 dark:text-blue-500
+                {% else %}
+                    text-gray-500 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500
+                {% endif %}">
+            Home
+        </a>
+        {% url 'about' as about_url %}
+        <a  href="{{ about_url }}" 
+        class="font-medium sm:py-6
+            {% if request.get_full_path == about_url %}
+                text-blue-600 dark:text-blue-500
+            {% else %}
+            text-gray-500 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500
+            {% endif %}">
+        About
+    </a>
+    {% if user.is_authenticated %}
+
+        <div @click.away="open = false" class="relative" x-data="{ open: false }">
+          <button @click="open = !open" class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark:bg-transparent dark:focus:text-white dark:hover:text-white dark:focus:bg-gray-600 dark:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+            <span>My account</span>
+            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          </button>
+          <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
+            <div class="px-2 py-2 bg-white rounded-md shadow dark:bg-gray-800">
+              <a class="block px-4 py-2 mt-2 text-sm bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'account_change_password' %}">Change password</a>
+              <a class="block px-4 py-2 mt-2 text-sm bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'account_logout' %}">Log out</a>
+            </div>
+          </div>
+        </div>    
+    {% else %}
+    {% url 'account_login' as login_url %}
+    <a href="{{ login_url }}" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-500 hover:border-blue-600 hover:text-blue-600 disabled:opacity-50 disabled:pointer-events-none dark:border-gray-700 dark:text-gray-400 dark:hover:text-blue-500 dark:hover:border-blue-600 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+        Log in
+    </a>
+    {% url 'account_signup' as signup_url %}
+    <a href="{{ signup_url }}" 
+        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"> 
+        Sign up
+    </a>
+    {% endif %}
+</div>
+      </nav>
+    </div>
+  </div>
