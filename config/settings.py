@@ -1,13 +1,33 @@
 from pathlib import Path
+from dotenv import load_dotenv
+#import cloudinary
+#import cloudinary.uploader
+#import cloudinary.api
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
-SECRET_KEY = "django-insecure-0peo@#x9jur3!h$ryje!$879xww8y1y66jx!%*#ymhg&jkozs2"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
+
+# Cloudinary settings
+#CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME')
+#CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY')
+#CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET')
+
+#cloudinary.config(
+#  cloud_name = CLOUDINARY_CLOUD_NAME,
+#  api_key = CLOUDINARY_API_KEY,
+#  api_secret = CLOUDINARY_API_SECRET,
+#  secure = True
+#)
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
@@ -27,14 +47,15 @@ INSTALLED_APPS = [
     "allauth.account",
     "crispy_forms",
     "crispy_tailwind",
+    "tailwind",
+    "django_htmx",
     "debug_toolbar",
-    'tailwind',
-    'django_browser_reload',
-    'widget_tweaks',
+    "django_browser_reload",
+    "widget_tweaks",
     # Local
-    'theme',
-    "apps.accounts",
-    "apps.pages",
+    "theme",
+    "accounts",
+    "pages",
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -51,6 +72,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # django-allauth
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
@@ -85,16 +108,19 @@ DATABASES = {
 }
 
 # For Docker/PostgreSQL usage uncomment this and comment the DATABASES config above
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "postgres",
-#         "USER": "postgres",
-#         "PASSWORD": "postgres",
-#         "HOST": "db",  # set in docker-compose.yml
-#         "PORT": 5432,  # default postgres port
-#     }
-# }
+#DATABASES = {
+#    'default': {
+#       'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': os.getenv('POSTGRES_DATABASE', 'default_db_name'),
+#        'USER': os.getenv('POSTGRES_USER', 'default_db_user'),
+#        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'default_db_password'),
+#        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+#        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+#        'OPTIONS': {
+#            'sslmode': 'require',
+#        },
+#    }
+#}
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -114,10 +140,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en-gb"
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = "UTC"
+TIME_ZONE = "GMT"
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-USE_I18N
 USE_I18N = True
@@ -147,8 +173,13 @@ STORAGES = {
     },
 }
 
+#DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 # django-crispy-forms
 # https://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
