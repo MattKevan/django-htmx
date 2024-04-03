@@ -54,8 +54,8 @@ INSTALLED_APPS = [
     "widget_tweaks",
     # Local
     "theme",
-    "accounts",
-    "pages",
+    "apps.accounts",
+    "apps.pages",
 ]
 
 TAILWIND_APP_NAME = 'theme'

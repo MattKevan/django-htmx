@@ -25,11 +25,11 @@
   {% tailwind_css %}
 
   {% block css %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}"  hx-indicator=".progress">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"  >
   {% endblock %}
 </head>
 
-<body hx-headers="{'X-CSRFToken': '{{ csrf_token }}'}" hx-boost="true" class="dark:bg-slate-900">
+<body hx-headers="{'X-CSRFToken': '{{ csrf_token }}'}" hx-boost="true" hx-indicator=".progress" class="dark:bg-slate-900">
   
   {% include '_header.html' %}
 
